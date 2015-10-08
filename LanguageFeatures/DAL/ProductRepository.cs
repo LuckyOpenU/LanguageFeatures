@@ -75,10 +75,10 @@ namespace LanguageFeatures.DAL
 			int n = 1;
 
 			// debug
-			/*
+			
 			if (nameBeginWidth == "all") n = ctx.Products.Count();
 			else n = ctx.Products.Where(x => x.Name.StartsWith(nameBeginWidth)).Count();
-			*/
+			
 
 			return n;
 		}
