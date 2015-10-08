@@ -175,7 +175,8 @@ namespace LanguageFeatures.Controllers
 		{
 			string contentType = "application/vnd.ms-excel";
 			//change from "World" to "Brian" (20151008)
-			string s = "Hello Brian!";
+			//change from "Brian" to "World" (20151008)
+			string s = "Hello World HAHAHA!";
 			byte[] data = System.Text.Encoding.ASCII.GetBytes(s);
 
 			contentType = "text/csv";
