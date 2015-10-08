@@ -6,9 +6,12 @@ using LanguageFeatures.Models;
 using LanguageFeatures.MyEnums;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace LanguageFeatures.Controllers
 {
@@ -173,14 +176,46 @@ namespace LanguageFeatures.Controllers
 		[FileDownload]
 		public ActionResult ExportToExcel()
 		{
-			string contentType = "application/vnd.ms-excel";
-			string s = "Hello World!";
-			byte[] data = System.Text.Encoding.ASCII.GetBytes(s);
+			//string contentType = "application/vnd.ms-excel";
+			//string[] s = { "Hello World!" };
+			//byte[] data = System.Text.Encoding.ASCII.GetBytes(s);
 
-			contentType = "text/csv";
-			Response.SetCookie(new HttpCookie(FILE_DOWNLOAD_COOKIE_NAME, "true") { Path = "/" });
+			//contentType = "text/csv";
+			//Response.SetCookie(new HttpCookie(FILE_DOWNLOAD_COOKIE_NAME, "true") { Path = "/" });
 
-			return File(data, contentType, "hello.csv");
+			//return File(data, contentType, "hello.csv");
+
+			var products = new System.Data.DataTable("Products");
+			products.Columns.Add("ID", typeof(string));
+			products.Columns.Add("Name", typeof(string));
+			products.Columns.Add("Description", typeof(string));
+			products.Columns.Add("Category", typeof(string));
+			products.Columns.Add("Price", typeof(decimal));
+
+			products= services.ListProducts(products);
+
+
+			var grid = new GridView();
+			grid.DataSource = products;
+			grid.DataBind();
+
+			Response.ClearContent();
+			Response.Buffer = true;
+			string dateAndTime = DateTime.Now.ToString("MM\\/dd\\/yyyy h\\:mm tt");
+			Response.AddHeader("content-disposition", "attachment; filename=Hello"+dateAndTime+".xls");
+			Response.ContentType = "application/ms-excel";
+
+			Response.Charset = "";
+			StringWriter sw = new StringWriter();
+			HtmlTextWriter htw = new HtmlTextWriter(sw);
+
+			grid.RenderControl(htw);
+
+			Response.Output.Write(sw.ToString());
+			Response.Flush();
+			Response.End();
+
+			return View("MyView");
 		}
 	}
 }

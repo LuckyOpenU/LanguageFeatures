@@ -12,6 +12,12 @@ namespace LanguageFeatures.DAL
 	{
 		//string cachePrefix = "Product_";
 
+		public List<Product> GetlistProducts()
+		{
+			List<Product> n = ctx.Products.OrderBy(x => x.ID).ToList();
+			return n;
+		}
+
 		public List<Product> GetProductListByName(string nameBeginWith, string sortBy, string sortOrder, int startRowIndex, int maximumRows)
 		{
 			string cacheKey = cachePrefix + nameBeginWith + "_" + sortBy + "_" + sortOrder + "_" + startRowIndex + "_" + maximumRows;
@@ -148,7 +154,7 @@ namespace LanguageFeatures.DAL
 				//	HttpRuntime.Cache.Remove(itemToRemove);
 				//}
 				ClearCache();
-            }
+			}
 
 			return n;
 		}

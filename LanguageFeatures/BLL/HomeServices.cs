@@ -11,6 +11,23 @@ namespace LanguageFeatures.BLL
 {
 	public class HomeServices : BaseServices
 	{
+
+		public System.Data.DataTable ListProducts(System.Data.DataTable products)
+		{
+			List<Product> listOfProducts = new List<Product>();
+
+			using (ProductRepository rpt = new ProductRepository())
+			{
+				listOfProducts = rpt.GetlistProducts();
+				foreach (Product n in listOfProducts)
+				{
+					products.Rows.Add(n.ProductID,n.Name,n.Description,n.Category,n.Price);
+				}
+			}
+
+			return products;
+		}
+
 		/// <summary>
 		/// show the product detail by getting existing id (150930)
 		/// </summary>
@@ -29,7 +46,7 @@ namespace LanguageFeatures.BLL
 			}
 
 			return n;
-        }
+		}
 
 		/// <summary>
 		/// if productID is not null, will force showing this record by adjusting current page (150923)
@@ -113,7 +130,7 @@ namespace LanguageFeatures.BLL
 				{
 					count = checkExistID.CheckExistID(product.ProductID);
 				}
-				if(count > 0)
+				if (count > 0)
 				{
 					n = MyError.Invalid;
 					ackMsg = "Invalid Input!";
