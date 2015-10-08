@@ -174,7 +174,8 @@ namespace LanguageFeatures.Controllers
 		public ActionResult ExportToExcel()
 		{
 			string contentType = "application/vnd.ms-excel";
-			string s = "Hello World!";
+			//change from "World" to "Brian" (20151008)
+			string s = "Hello Brian!";
 			byte[] data = System.Text.Encoding.ASCII.GetBytes(s);
 
 			contentType = "text/csv";
