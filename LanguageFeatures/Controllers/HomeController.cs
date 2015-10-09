@@ -232,8 +232,6 @@ namespace LanguageFeatures.Controllers
 			// Set the worksheet name.
 			worksheet.Name = "Product List";
 
-			
-
 			cells = services.ListProducts(cells);
 
 			//// Load row titles using multiple cell text reference and iteration.

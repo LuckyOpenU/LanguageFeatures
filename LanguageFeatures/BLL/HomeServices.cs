@@ -15,7 +15,6 @@ namespace LanguageFeatures.BLL
 		public SpreadsheetGear.IRange ListProducts(SpreadsheetGear.IRange cells)
 		{
 			List<Product> listOfProducts = new List<Product>();
-			// Load column titles and center.
 			cells["A1"].Formula = "#";
 			cells["B1"].Formula = "ID";
 			cells["C1"].Formula = "Name";
@@ -32,10 +31,10 @@ namespace LanguageFeatures.BLL
 				foreach (Product n in listOfProducts)
 				{
 					cells["A" + i].Value = i;
-					cells["B" + i].Formula = n.ProductID;
-					cells["C" + i].Formula = n.Name;
-					cells["D" + i].Formula = n.Description;
-					cells["E" + i].Formula = n.Category;
+					cells["B" + i].Formula = "=\"" + n.ProductID + "\"";
+					cells["C" + i].Formula = "=\"" + n.Name + "\"";
+					cells["D" + i].Formula = "=\"" + n.Description + "\"";
+					cells["E" + i].Formula = "=\"" + n.Category + "\"";
 					cells["F" + i].Value = n.Price;
 					i++;
 				}
