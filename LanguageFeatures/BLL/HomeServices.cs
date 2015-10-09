@@ -12,20 +12,36 @@ namespace LanguageFeatures.BLL
 	public class HomeServices : BaseServices
 	{
 
-		public System.Data.DataTable ListProducts(System.Data.DataTable products)
+		public SpreadsheetGear.IRange ListProducts(SpreadsheetGear.IRange cells)
 		{
 			List<Product> listOfProducts = new List<Product>();
-
+			// Load column titles and center.
+			cells["A1"].Formula = "#";
+			cells["B1"].Formula = "ID";
+			cells["C1"].Formula = "Name";
+			cells["D1"].Formula = "Decription";
+			cells["E1"].Formula = "Category";
+			cells["F1"].Formula = "Price";
+			cells["A1,F1"].HorizontalAlignment = SpreadsheetGear.HAlign.Right;
+			cells["B1:E1"].HorizontalAlignment = SpreadsheetGear.HAlign.Left;
+			cells["A1:F1"].Font.Bold = true;
 			using (ProductRepository rpt = new ProductRepository())
 			{
+				int i = 2;
 				listOfProducts = rpt.GetlistProducts();
 				foreach (Product n in listOfProducts)
 				{
-					products.Rows.Add(n.ProductID,n.Name,n.Description,n.Category,n.Price);
+					cells["A" + i].Value = i;
+					cells["B" + i].Formula = n.ProductID;
+					cells["C" + i].Formula = n.Name;
+					cells["D" + i].Formula = n.Description;
+					cells["E" + i].Formula = n.Category;
+					cells["F" + i].Value = n.Price;
+					i++;
 				}
 			}
 
-			return products;
+			return cells;
 		}
 
 		/// <summary>

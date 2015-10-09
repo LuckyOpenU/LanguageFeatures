@@ -7,7 +7,7 @@
 <script src="/Scripts/jquery.fileDownload.js"></script>
 @*<br />*@
 <h2>Product List:</h2>
-<form class="formProductList" id="formProductList" action='@Url.Action("ExportToExcel")'>
+<form class="formProductList" id="formProductList" action='@Url.Action("Page_Load")'>
 	<d>
 		<div style="float: left;">
 			Last Name Beginning with&nbsp;
@@ -242,7 +242,7 @@
 		//});
 
 		$('form.formProductList').click(function (e) {
-			$.fileDownload('ExportToExcel', {
+			$.fileDownload('Page_Load', {
 				successCallback: function (url) {
 				},
 				failCallback: function (html, url) {

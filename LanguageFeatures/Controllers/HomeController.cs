@@ -176,48 +176,84 @@ namespace LanguageFeatures.Controllers
 		[FileDownload]
 		public ActionResult ExportToExcel()
 		{
-			//testing 001 (20151008)
+			string contentType = "application/vnd.ms-excel";
+			string s = "Hello World!";
+			byte[] data = System.Text.Encoding.ASCII.GetBytes(s);
 
-			//string contentType = "application/vnd.ms-excel";
-			//string[] s = { "Hello World!" };
-			//byte[] data = System.Text.Encoding.ASCII.GetBytes(s);
+			contentType = "text/csv";
+			Response.SetCookie(new HttpCookie(FILE_DOWNLOAD_COOKIE_NAME, "true") { Path = "/" });
 
-			//contentType = "text/csv";
-			//Response.SetCookie(new HttpCookie(FILE_DOWNLOAD_COOKIE_NAME, "true") { Path = "/" });
+			return File(data, contentType, "hello.csv");
 
-			//return File(data, contentType, "hello.csv");
+			//FAKED!!!!!!!!!! (20151009)
 
-			var products = new System.Data.DataTable("Products");
-			products.Columns.Add("ID", typeof(string));
-			products.Columns.Add("Name", typeof(string));
-			products.Columns.Add("Description", typeof(string));
-			products.Columns.Add("Category", typeof(string));
-			products.Columns.Add("Price", typeof(decimal));
+			//var products = new System.Data.DataTable("Products");
+			//products.Columns.Add("ID", typeof(string));
+			//products.Columns.Add("Name", typeof(string));
+			//products.Columns.Add("Description", typeof(string));
+			//products.Columns.Add("Category", typeof(string));
+			//products.Columns.Add("Price", typeof(decimal));
 
-			products= services.ListProducts(products);
+			//products = services.ListProducts(products);
 
 
-			var grid = new GridView();
-			grid.DataSource = products;
-			grid.DataBind();
+			//var grid = new GridView();
+			//grid.DataSource = products;
+			//grid.DataBind();
 
-			Response.ClearContent();
-			Response.Buffer = true;
+			//Response.ClearContent();
+			//Response.Buffer = true;
+			//string dateAndTime = DateTime.Now.ToString("MM\\/dd\\/yyyy h\\:mm tt");
+			//Response.AddHeader("content-disposition", "attachment; filename=Hello"+dateAndTime+".xls");
+			//Response.ContentType = "application/ms-excel";
+
+			//Response.Charset = "";
+			//StringWriter sw = new StringWriter();
+			//HtmlTextWriter htw = new HtmlTextWriter(sw);
+
+			//grid.RenderControl(htw);
+
+			//Response.Output.Write(sw.ToString());
+			//Response.Flush();
+			//Response.End();
+
+			//return View("MyView");
+		}
+
+		public void Page_Load()
+		{
+			//Object sender, EventArgs e
+
+			// Create a new workbook.
+			SpreadsheetGear.IWorkbook workbook = SpreadsheetGear.Factory.GetWorkbook();
+			SpreadsheetGear.IWorksheet worksheet = workbook.Worksheets["Sheet1"];
+			SpreadsheetGear.IRange cells = worksheet.Cells;
+
+			// Set the worksheet name.
+			worksheet.Name = "Product List";
+
+			
+
+			cells = services.ListProducts(cells);
+
+			//// Load row titles using multiple cell text reference and iteration.
+			//int quarter = 1;
+			//foreach (SpreadsheetGear.IRange cell in cells["A2:A5"])
+			//	cell.Formula = "Q" + quarter++;
+
+			//// Load random data and format as $ using a multiple cell range.
+			//SpreadsheetGear.IRange body = cells[1, 1, 4, 5];
+			//body.Formula = "=RAND() * 10000";
+			//body.NumberFormat = "$#,##0_);($#,##0)";
+
+			// Stream the Excel spreadsheet to the client in a format
+			// compatible with Excel 97/2000/XP/2003/2007/2010.
+			Response.Clear();
+			Response.ContentType = "application/vnd.ms-excel";
 			string dateAndTime = DateTime.Now.ToString("MM\\/dd\\/yyyy h\\:mm tt");
-			Response.AddHeader("content-disposition", "attachment; filename=Hello"+dateAndTime+".xls");
-			Response.ContentType = "application/ms-excel";
-
-			Response.Charset = "";
-			StringWriter sw = new StringWriter();
-			HtmlTextWriter htw = new HtmlTextWriter(sw);
-
-			grid.RenderControl(htw);
-
-			Response.Output.Write(sw.ToString());
-			Response.Flush();
+			Response.AddHeader("Content-Disposition", "attachment; filename=report" + dateAndTime + ".xls");
+			workbook.SaveToStream(Response.OutputStream, SpreadsheetGear.FileFormat.Excel8);
 			Response.End();
-
-			return View("MyView");
 		}
 	}
 }
