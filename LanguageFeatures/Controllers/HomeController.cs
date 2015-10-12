@@ -223,7 +223,6 @@ namespace LanguageFeatures.Controllers
 		public void Page_Load()
 		{
 			//Object sender, EventArgs e
-			//Testing Sean
 
 			// Create a new workbook.
 			SpreadsheetGear.IWorkbook workbook = SpreadsheetGear.Factory.GetWorkbook();
@@ -231,7 +230,6 @@ namespace LanguageFeatures.Controllers
 			SpreadsheetGear.IRange cells = worksheet.Cells;
 
 			// Set the worksheet name.
-            //Testing 002
 			worksheet.Name = "Product List";
 
 			cells = services.ListProducts(cells);
@@ -248,7 +246,6 @@ namespace LanguageFeatures.Controllers
 
 			// Stream the Excel spreadsheet to the client in a format
 			// compatible with Excel 97/2000/XP/2003/2007/2010.
-			//add Sean
 			Response.Clear();
 			Response.ContentType = "application/vnd.ms-excel";
 			string dateAndTime = DateTime.Now.ToString("MM\\/dd\\/yyyy h\\:mm tt");
