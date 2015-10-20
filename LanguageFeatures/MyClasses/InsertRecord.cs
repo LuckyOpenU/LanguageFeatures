@@ -12,5 +12,6 @@ namespace LanguageFeatures.Models
 		public string insertDescription { get; set; }
 		public string insertCategory { get; set; }
 		public decimal insertPrice { get; set; }
+		public string abc { get; set; }
 	}
 }
